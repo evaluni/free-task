@@ -7,7 +7,8 @@ scalacOptions ++= Seq("-feature", "-deprecation")
 scalacOptions in Test ++= Seq("-Yrangepos")
 
 val `free-task-example` = (project in file(".")).dependsOn(
-  RootProject(file(".."))
+  RootProject(file("..")),
+  ProjectRef(uri("git://github.com/rika-t/free-scalikejdbc.git"), "core")
 )
 
 // https://mvnrepository.com/artifact/com.h2database/h2

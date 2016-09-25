@@ -6,9 +6,7 @@ scalacOptions ++= Seq("-feature", "-deprecation")
 
 scalacOptions in Test ++= Seq("-Yrangepos")
 
-val `free-task` = (project in file(".")).dependsOn(
-  ProjectRef(uri("git://github.com/rika-t/free-scalikejdbc.git"), "core")
-)
+val `free-task` = project in file(".")
 
 // https://mvnrepository.com/artifact/org.scalatest/scalatest_2.11
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0"
