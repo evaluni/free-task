@@ -1,7 +1,7 @@
 package com.evaluni.txn_example.domain
 
-import com.evaluni.free.task.TxnT
-import com.evaluni.free.task.TxnTFunctions
+import com.evaluni.freetask.TxnT
+import com.evaluni.freetask.TxnTFunctions
 import scalaz.Coyoneda
 import scalaz.Free
 import scalaz.Free.FreeC

@@ -1,10 +1,10 @@
-package com.evaluni.free.task
+package com.evaluni.freetask
 
 import scala.language.higherKinds
 import scalaz.Monad
 import scalaz.syntax.all._
 
-class TxnT[M[_], -R, A] private[task] (val raw: M[A]) {
+class TxnT[M[_], -R, A] private[freetask] (val raw: M[A]) {
 
   import TxnTFunctions._
 
