@@ -1,7 +1,6 @@
 package com.evaluni.txn_example.infra
 
 import scalaz.Free
-import scalaz.Free.FreeC
 import scalikejdbc.DBSession
 import scalikejdbc.NamedAutoSession
 import scalikejdbc.ReadOnlyNamedAutoSession
@@ -10,14 +9,14 @@ import scalikejdbc.free.Query
 
 object Rdb {
 
-  type RdbIO[A] = FreeC[Query, A]
+  type RdbIO[A] = Free[Query, A]
 
   val mainStore: String = "mainStore"
 
   def run[T](a: RdbIO[T], session: DBSession): T =
-    Free.runFC(a)(Interpreter.transaction).run(session)
+    a.foldMap(Interpreter.transaction).run(session)
 
-  def run[T](a: RdbIO[T], access: Access[_] = Access(mainStore, false)): T =
+  def run[T](a: RdbIO[T], access: Access[_] = Access(mainStore, readonly = false)): T =
     run(a, newSession(access))
 
   case class Access[R](name: String, readonly: Boolean)

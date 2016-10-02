@@ -1,11 +1,8 @@
 package com.evaluni.txn_example.infra
 
 import com.evaluni.txn_example.domain.store.EntityOp
-import scalaz.Coyoneda
 import scalaz.Free
-import scalaz.Free._
-import scalaz._
-import scalikejdbc.free.Query
+import scalaz.~>
 
 trait EntityIOHandler {
 
@@ -13,14 +10,14 @@ trait EntityIOHandler {
 
   def handle[A](op: EntityOp[A]): Option[RdbIO[A]]
 
-  final def convert[A](next: FreeC[EntityOp, A]): RdbIO[A] =
-    Free.runFC[EntityOp, RdbIO, A](next)(new (EntityOp ~> RdbIO) {
-      override def apply[A](fa: EntityOp[A]): RdbIO[A] = handle(fa) getOrElse {
+  final def convert[A](next: Free[EntityOp, A]): RdbIO[A] =
+    next.foldMap(new (EntityOp ~> RdbIO) {
+      override def apply[T](fa: EntityOp[T]): RdbIO[T] = handle(fa) getOrElse {
         throw new IllegalStateException(
           "No handler which can recognize a given action: " + fa
         )
       }
-    })(Free.freeMonad[({type f[x] = Coyoneda[Query, x]})#f])
+    })
 }
 
 object EntityIOHandler {
