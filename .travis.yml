@@ -1,0 +1,4 @@
+sudo: false
+language: scala
+script:
+- sbt free-task/test free-task-example/test
