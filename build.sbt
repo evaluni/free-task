@@ -8,9 +8,9 @@ val defaultProjectSettings = Defaults.coreDefaultSettings ++ Seq(
   )
 )
 
-val `free-task` = Project(
+val freeTask = Project(
   id = "free-task",
-  base = file("."),
+  base = file(""),
   settings = defaultProjectSettings
 ).settings(libraryDependencies ++= Seq(
   // https://mvnrepository.com/artifact/org.scalatest/scalatest_2.11
@@ -19,12 +19,12 @@ val `free-task` = Project(
   "org.scalaz" %% "scalaz-core" % "7.1.7"
 ))
 
-val `free-task-example` = Project(
+val freeTaskExample = Project(
   id = "free-task-example",
   base = file("example"),
   settings = defaultProjectSettings
 ).dependsOn(
-  RootProject(file(".")),
+  freeTask,
   ProjectRef(uri("git://github.com/rika-t/free-scalikejdbc.git"), "core")
 ).settings(libraryDependencies ++= Seq(
   // https://mvnrepository.com/artifact/org.scalatest/scalatest_2.11
