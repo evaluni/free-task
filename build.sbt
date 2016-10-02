@@ -16,7 +16,7 @@ val freeTask = Project(
   // https://mvnrepository.com/artifact/org.scalatest/scalatest_2.11
   "org.scalatest" %% "scalatest" % "3.0.0",
   // https://mvnrepository.com/artifact/org.scalaz/scalaz-core_2.11
-  "org.scalaz" %% "scalaz-core" % "7.2.5"
+  "org.scalaz" %% "scalaz-core" % "7.2.6"
 ))
 
 val freeTaskExample = Project(
