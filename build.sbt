@@ -16,7 +16,7 @@ val freeTask = Project(
   // https://mvnrepository.com/artifact/org.scalatest/scalatest_2.11
   "org.scalatest" %% "scalatest" % "3.0.0",
   // https://mvnrepository.com/artifact/org.scalaz/scalaz-core_2.11
-  "org.scalaz" %% "scalaz-core" % "7.1.7"
+  "org.scalaz" %% "scalaz-core" % "7.2.5"
 ))
 
 val freeTaskExample = Project(
@@ -25,11 +25,10 @@ val freeTaskExample = Project(
   settings = defaultProjectSettings
 ).dependsOn(
   freeTask,
-  ProjectRef(uri("git://github.com/rika-t/free-scalikejdbc.git"), "core")
+  ProjectRef(uri("git://github.com/gakuzzzz/free-scalikejdbc.git#b2622a9ab5aefbda775d3ef3a9ac4f431008523f"), "core")
 ).settings(libraryDependencies ++= Seq(
   // https://mvnrepository.com/artifact/org.scalatest/scalatest_2.11
   "org.scalikejdbc" %% "scalikejdbc" % "2.4.2",
   // https://mvnrepository.com/artifact/com.h2database/h2
   "com.h2database" % "h2" % "1.4.192" % "test"
 ))
-
