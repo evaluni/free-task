@@ -14,7 +14,8 @@ val freeTask = Project(
   settings = defaultProjectSettings
 ).settings(libraryDependencies ++= Seq(
   // https://mvnrepository.com/artifact/org.scalatest/scalatest_2.11
-  "org.scalatest" %% "scalatest" % "3.0.0",
+  // Use 2.2.6 until scalikejdbc-test supports scalatest 3.x.
+  "org.scalatest" %% "scalatest" % "2.2.6",
   // https://mvnrepository.com/artifact/org.scalaz/scalaz-core_2.11
   "org.scalaz" %% "scalaz-core" % "7.2.6"
 ))
