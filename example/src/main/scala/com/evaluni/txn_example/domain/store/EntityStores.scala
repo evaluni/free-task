@@ -2,7 +2,9 @@ package com.evaluni.txn_example.domain.store
 
 import scala.language.higherKinds
 
-trait EntityStores[M[_], Access[_]] {
+trait EntityStores[M[_]] {
+
+  type Access[a]
 
   implicit def readonlyMainStore: Access[MainStore.R]
   implicit def writableMainStore: Access[MainStore.W]

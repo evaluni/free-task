@@ -5,7 +5,9 @@ import com.evaluni.txn_example.domain.store.MainStore
 import com.evaluni.txn_example.domain.store.Txn
 import scala.util.Try
 
-class RdbEntityStores(handler: EntityIOHandler) extends EntityStores[Try, Rdb.Access] {
+class RdbEntityStores(handler: EntityIOHandler) extends EntityStores[Try] {
+
+  override type Access[a] = Rdb.Access[a]
 
   import Rdb._
 
