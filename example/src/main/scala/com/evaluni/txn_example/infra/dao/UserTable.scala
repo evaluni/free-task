@@ -15,6 +15,11 @@ object UserTable {
       User(id, rs.string("name"), rs.int("age"))
     ))
 
+  def selectByName(name: String)(implicit s: ScalikeJDBC[Query]): IO[Option[User]] =
+    s.first(sql"select * from user where name = $name".map(rs =>
+      User(UserId(rs.long("id")), rs.string("name"), rs.int("age"))
+    ))
+
   def insert(name: String, age: Int)(implicit s: ScalikeJDBC[Query]): IO[UserId] =
     s.generateKey(sql"insert into user (name, age) values ($name, $age)").map(UserId)
 
