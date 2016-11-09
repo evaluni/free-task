@@ -1,14 +1,13 @@
 package com.evaluni.txn_example.domain
 
 import com.evaluni.txn_example.infra.MockStores
-import com.evaluni.txn_example.infra.RdbEntityStores
-import com.evaluni.txn_example.infra.dao.UserDAO
+import com.evaluni.txn_example.infra.RDBEntityStores
 import org.scalatest.FlatSpec
 import scala.util.Success
 
 class UserRepositorySpec extends FlatSpec {
 
-  val store = new RdbEntityStores(UserDAO)
+  val store = new RDBEntityStores(UserHandler)
   import store._
 
   MockStores.mainStoreDB.autoCommit { implicit session =>

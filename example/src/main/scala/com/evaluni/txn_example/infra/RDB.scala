@@ -7,16 +7,16 @@ import scalikejdbc.ReadOnlyNamedAutoSession
 import scalikejdbc.free.Interpreter
 import scalikejdbc.free.Query
 
-object Rdb {
+object RDB {
 
-  type RdbIO[A] = Free[Query, A]
+  type IO[A] = Free[Query, A]
 
   val mainStore: String = "mainStore"
 
-  def run[T](a: RdbIO[T], session: DBSession): T =
+  def run[T](a: IO[T], session: DBSession): T =
     a.foldMap(Interpreter.transaction).run(session)
 
-  def run[T](a: RdbIO[T], access: Access[_] = Access(mainStore, readonly = false)): T =
+  def run[T](a: IO[T], access: Access[_] = Access(mainStore, readonly = false)): T =
     run(a, newSession(access))
 
   case class Access[R](name: String, readonly: Boolean)
