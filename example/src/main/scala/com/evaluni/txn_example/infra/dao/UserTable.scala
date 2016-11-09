@@ -2,7 +2,7 @@ package com.evaluni.txn_example.infra.dao
 
 import com.evaluni.txn_example.domain.User
 import com.evaluni.txn_example.domain.UserId
-import com.evaluni.txn_example.infra.RDB.IO
+import com.evaluni.txn_example.infra.SampleDatabase.IO
 import scalikejdbc.free.Query
 import scalikejdbc.free.ScalikeJDBC
 

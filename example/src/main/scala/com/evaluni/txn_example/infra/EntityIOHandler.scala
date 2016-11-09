@@ -1,12 +1,23 @@
 package com.evaluni.txn_example.infra
 
+import com.evaluni.txn_example.domain.UserHandler
 import com.evaluni.txn_example.domain.store.EntityOp
 import scalaz.Free
 import scalaz.~>
 
+trait MixInDefaultEntityIOHandler {
+  val entityIOHandler: EntityIOHandler = EntityIOHandler(
+    UserHandler
+  )
+}
+
+trait UsesEntityIOHandler {
+  val entityIOHandler: EntityIOHandler
+}
+
 trait EntityIOHandler {
 
-  import RDB.IO
+  import SampleDatabase.IO
 
   def handle[A](op: EntityOp[A]): Option[IO[A]]
 
@@ -26,7 +37,7 @@ object EntityIOHandler {
 
 private[infra] final class EntityIOHandlerSet(handlers: Seq[EntityIOHandler]) extends EntityIOHandler {
 
-  import RDB.IO
+  import SampleDatabase.IO
 
   def handle[A](msg: EntityOp[A]): Option[IO[A]] =
     handlers.toStream.map(_.handle(msg)).collectFirst { case Some(e) => e }
