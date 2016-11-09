@@ -1,5 +1,6 @@
 package com.evaluni.txn_example.infra
 
+import com.evaluni.txn_example.domain.RoleHandler
 import com.evaluni.txn_example.domain.UserHandler
 import com.evaluni.txn_example.domain.store.EntityOp
 import scalaz.Free
@@ -7,7 +8,8 @@ import scalaz.~>
 
 trait MixInDefaultEntityIOHandler {
   val entityIOHandler: EntityIOHandler = EntityIOHandler(
-    UserHandler
+    UserHandler,
+    RoleHandler
   )
 }
 

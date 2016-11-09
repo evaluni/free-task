@@ -49,7 +49,7 @@ object UserRepositorySpec {
 
   val ddl =
     sql"""
-CREATE TABLE user (
+CREATE TABLE IF NOT EXISTS user (
   id         serial       NOT NULL PRIMARY KEY ,
   name       varchar(32)  NOT NULL,
   age        int          NOT NULL,
