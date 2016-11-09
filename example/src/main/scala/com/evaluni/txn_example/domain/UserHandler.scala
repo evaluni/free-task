@@ -4,7 +4,7 @@ import com.evaluni.txn_example.domain.UserRepository.Create
 import com.evaluni.txn_example.domain.UserRepository.Find
 import com.evaluni.txn_example.domain.store.EntityOp
 import com.evaluni.txn_example.infra.EntityIOHandler
-import com.evaluni.txn_example.infra.RDB._
+import com.evaluni.txn_example.infra.SampleDatabase.IO
 import com.evaluni.txn_example.infra.dao.UserTable
 
 object UserHandler extends EntityIOHandler {

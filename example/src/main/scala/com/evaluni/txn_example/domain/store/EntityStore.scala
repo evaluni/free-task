@@ -2,7 +2,7 @@ package com.evaluni.txn_example.domain.store
 
 import scala.language.higherKinds
 
-trait EntityStores[M[_]] {
+trait EntityStore[M[_]] {
 
   type Access[a]
 
