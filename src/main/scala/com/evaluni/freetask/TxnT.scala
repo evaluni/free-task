@@ -4,11 +4,15 @@ import scala.language.higherKinds
 import scalaz.Monad
 import scalaz.syntax.all._
 
+object TxnT {
+  implicit def upcast[M[_]: Monad, R, R2 <: R, A, B >: A](txn: TxnT[M, R, A]): TxnT[M, R2, B] = txn.map(e => e: B)
+}
+
 class TxnT[M[_], -R, A] private[freetask] (val raw: M[A]) {
 
   import TxnTFunctions._
 
-  def flatMap[R2 <: R, B](f: A => TxnT[M, R2, B])(implicit M: Monad[M]): TxnT[M, R2, B] =
+  def flatMap[R2 <: R, B](f: A => TxnT[M, _ <: R2, B])(implicit M: Monad[M]): TxnT[M, R2, B] =
     liftMT(raw flatMap f.andThen(_.raw))
 
   def map[B](f: A => B)(implicit M: Monad[M]): TxnT[M, R, B] = flatMap(a => apply(f(a)))
