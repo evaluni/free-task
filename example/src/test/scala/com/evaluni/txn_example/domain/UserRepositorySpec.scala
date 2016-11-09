@@ -32,10 +32,10 @@ object UserRepositorySpec {
 
   val ddl = sql"""
 CREATE TABLE user (
-  user_id serial       NOT NULL PRIMARY KEY ,
-  name    varchar(32)  NOT NULL,
-  age     int          NOT NULL,
-  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  id         serial       NOT NULL PRIMARY KEY ,
+  name       varchar(32)  NOT NULL,
+  age        int          NOT NULL,
+  created_at timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP
 )
 """
 }
