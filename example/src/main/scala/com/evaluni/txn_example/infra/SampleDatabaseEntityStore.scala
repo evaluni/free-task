@@ -3,8 +3,17 @@ package com.evaluni.txn_example.infra
 import com.evaluni.txn_example.domain.store.EntityStore
 import com.evaluni.txn_example.domain.store.MainStore
 import com.evaluni.txn_example.domain.store.Txn
+import com.evaluni.txn_example.infra.config.MixInDatabaseExecutionContext
 import com.evaluni.txn_example.infra.config.UsesDatabaseExecutionContext
 import scala.concurrent.Future
+
+trait UsesSampleDatabaseEntityStore {
+  val databaseEntityStore: EntityStore[Future]
+}
+
+trait MixInSampleDatabaseEntityStore extends UsesSampleDatabaseEntityStore {
+  override lazy val databaseEntityStore: EntityStore[Future] = new SampleDatabaseEntityStore with MixInDatabaseExecutionContext with MixInDefaultEntityIOHandler
+}
 
 trait SampleDatabaseEntityStore extends EntityStore[Future] with UsesDatabaseExecutionContext with UsesEntityIOHandler {
 
