@@ -1,5 +1,6 @@
 package com.evaluni.txn_example.infra
 
+import com.evaluni.freetask.CovariantFree
 import com.evaluni.txn_example.domain.RoleHandler
 import com.evaluni.txn_example.domain.UserHandler
 import com.evaluni.txn_example.domain.store.EntityOp
@@ -22,6 +23,9 @@ trait EntityIOHandler {
   import SampleDatabase.IO
 
   def handle[A](op: EntityOp[A]): Option[IO[A]]
+
+
+  final def convert[A](next: CovariantFree[EntityOp, A]): IO[A] = convert(next.cast[A])
 
   final def convert[A](next: Free[EntityOp, A]): IO[A] =
     next.foldMap(new (EntityOp ~> IO) {
