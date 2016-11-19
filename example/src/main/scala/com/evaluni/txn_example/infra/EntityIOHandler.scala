@@ -1,10 +1,9 @@
 package com.evaluni.txn_example.infra
 
-import com.evaluni.freetask.CovariantFree
 import com.evaluni.txn_example.domain.RoleHandler
 import com.evaluni.txn_example.domain.UserHandler
+import com.evaluni.txn_example.domain.store.EntityIO
 import com.evaluni.txn_example.domain.store.EntityOp
-import scalaz.Free
 import scalaz.~>
 
 trait MixInDefaultEntityIOHandler {
@@ -24,11 +23,8 @@ trait EntityIOHandler {
 
   def handle[A](op: EntityOp[A]): Option[IO[A]]
 
-
-  final def convert[A](next: CovariantFree[EntityOp, A]): IO[A] = convert(next.cast[A])
-
-  final def convert[A](next: Free[EntityOp, A]): IO[A] =
-    next.foldMap(new (EntityOp ~> IO) {
+  final def convert[A](next: EntityIO[A]): IO[A] =
+    next.cast[A].foldMap(new (EntityOp ~> IO) {
       override def apply[T](fa: EntityOp[T]): IO[T] = handle(fa) getOrElse {
         throw new IllegalStateException(
           "No handler which can recognize a given action: " + fa
