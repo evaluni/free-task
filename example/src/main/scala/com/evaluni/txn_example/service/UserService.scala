@@ -1,6 +1,5 @@
 package com.evaluni.txn_example.service
 
-import com.evaluni.freetask.TxnT
 import com.evaluni.txn_example.domain.RoleRepository
 import com.evaluni.txn_example.domain.UserId
 import com.evaluni.txn_example.domain.UserRepository
@@ -22,12 +21,10 @@ trait UserService extends UsesSampleDatabaseEntityStore with UsesDatabaseExecuti
   ): Future[Either[CreateUserError, UserId]] = invoke {
     UserRepository.findByName(name).flatMap {
       case Some(_) =>
-        Txn(Left(CreateUserError.DuplicatedName)): TxnT[EntityIO, MainStore.W, Either[CreateUserError, UserId]]
-      //TODO remove type declare
+        Txn(Left(CreateUserError.DuplicatedName))
       case None =>
         UserRepository.create(name, age).flatMap { userId =>
-          RoleRepository.create(userId, isAdmin).map(_ => Right(userId)): TxnT[EntityIO, MainStore.W, Either[CreateUserError, UserId]]
-          //TODO remove type declare
+          RoleRepository.create(userId, isAdmin).map(_ => Right(userId))
         }
     }
   }
