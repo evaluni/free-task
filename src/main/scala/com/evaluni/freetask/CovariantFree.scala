@@ -5,7 +5,7 @@ import scalaz.Free
 import scalaz.Monad
 
 class CovariantFree[F[_], +A] private (private val raw: Free[F, _ <: A]) {
-  def get[B >: A]: Free[F, B] = raw.map(e => e: B)
+  def cast[B >: A]: Free[F, B] = raw.map(e => e: B)
 }
 
 object CovariantFree {
@@ -14,7 +14,7 @@ object CovariantFree {
 
     override def bind[A, B](fa: CovariantFree[F, A])(f: A => CovariantFree[F, B]): CovariantFree[F, B] =
       new CovariantFree(
-        fa.get[A].flatMap { a => f(a).get[B] }
+        fa.cast[A].flatMap { a => f(a).cast[B] }
       )
 
     override def point[A](a: => A): CovariantFree[F, A] =

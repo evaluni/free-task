@@ -25,7 +25,7 @@ trait EntityIOHandler {
   def handle[A](op: EntityOp[A]): Option[IO[A]]
 
 
-  final def convert[A](next: CovariantFree[EntityOp, A]): IO[A] = convert(next.get[A])
+  final def convert[A](next: CovariantFree[EntityOp, A]): IO[A] = convert(next.cast[A])
 
   final def convert[A](next: Free[EntityOp, A]): IO[A] =
     next.foldMap(new (EntityOp ~> IO) {
