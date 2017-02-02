@@ -4,9 +4,9 @@ import scala.language.higherKinds
 import scalaz.Monad
 import scalaz.syntax.all._
 
-class CovariantTxnT[M[+_], -R, +A] private[freetask] (val raw: M[A]) {
+final class CovariantTxnT[M[+_], -R, +A] private[freetask] (val raw: M[A]) {
 
-  import CovariantTxnTFunctions._
+  import CovariantTxnT._
 
   def flatMap[R2 <: R, B](f: A => CovariantTxnT[M, R2, B])(implicit M: Monad[M]): CovariantTxnT[M, R2, B] =
     liftMT(raw flatMap f.andThen(_.raw))
@@ -14,6 +14,8 @@ class CovariantTxnT[M[+_], -R, +A] private[freetask] (val raw: M[A]) {
   def map[B](f: A => B)(implicit M: Monad[M]): CovariantTxnT[M, R, B] = flatMap(a => apply(f(a)))
 
 }
+
+object CovariantTxnT extends CovariantTxnTFunctions
 
 trait CovariantTxnTFunctions { self =>
 
@@ -28,8 +30,9 @@ trait CovariantTxnTFunctions { self =>
 
     override def bind[A, B](fa: CovariantTxnT[M, R, A])(f: A => CovariantTxnT[M, R, B]): CovariantTxnT[M, R, B] = fa flatMap f
 
+    override def ap[A, B](fa: => CovariantTxnT[M, R, A])(f: => CovariantTxnT[M, R, (A) => B]): CovariantTxnT[M, R, B] =
+      liftMT[M, B](M.ap(fa.raw)(f.raw))
+
   }
 
 }
-
-object CovariantTxnTFunctions extends CovariantTxnTFunctions

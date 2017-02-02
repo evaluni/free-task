@@ -4,7 +4,7 @@ import scala.language.higherKinds
 import scalaz.Monad
 import scalaz.syntax.all._
 
-class CovariantWrapper[M[_], +A](private val raw: M[_ <: A]) {
+final class CovariantWrapper[M[_], +A](private val raw: M[_ <: A]) extends AnyVal {
   def cast[B >: A](implicit M: Monad[M]): M[B] = raw.map(e => e: B)
 }
 
